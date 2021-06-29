@@ -2,7 +2,7 @@ NAME		= fdf
 
 #Sources
 PATH_SRCS	= srcs/
-SRCS		= $(addprefix $(PATH_SRCS), main.c)
+SRCS		= $(addprefix $(PATH_SRCS), main.c parsing.c draw.c events.c utils.c)
 
 #Includes
 PATH_INC	= includes/

@@ -73,8 +73,10 @@ void			*ft_memset(void *b, int c, size_t len);
 /*
 **NUMBER
 */
+int				ft_isnumber(char *s);
 int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
+int				ft_atoi_base(char *str, char *base);
 
 /*
 **PUT
