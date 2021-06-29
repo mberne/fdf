@@ -10,6 +10,8 @@
 
 # define ESC 53
 # define SCALE 10
+# define H_RES 1000
+# define V_RES 1000
 
 typedef struct s_vars
 {
@@ -56,9 +58,9 @@ void	parsing(t_struct *as, char *file);
 void	take_map(t_struct *as, char *file, char **tmpmap);
 void	take_points(t_struct *as);
 void	fill_points(t_struct *as, char **line);
+void	get_altitude_and_color(t_struct *as, char *point, int k);
 
 int		draw(t_struct *as);
-
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	free_split(char **tab, int i);
