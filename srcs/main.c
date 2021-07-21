@@ -4,7 +4,6 @@ int	main(int ac, char **av)
 {
 	t_struct	as;
 
-	(void)av;
 	if (ac != 2)
 		ft_exit(&as, "Wrong number of parameter.\n");
 	parsing(&as, av[1]);

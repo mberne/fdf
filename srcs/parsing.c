@@ -3,11 +3,20 @@
 void	get_altitude_and_color(t_struct *as, char *point, int k)
 {
 	char	**data;
+	int		negativ;
 
+	negativ = 0;
 	if (ft_count(point, ',') == 0)
 	{
+		if (point[0] == '-')
+		{
+			point++;
+			negativ = 1;
+		}
 		if (!ft_isnumber(point))
-			ft_exit(as, "Error\nInvalide file\n");
+			ft_exit(as, "Error\nInvalid file\n");
+		if (negativ)
+			point--;
 		as->map.point[k].z = ft_atoi(point);
 		as->map.point[k].color = 16777215;
 	}
@@ -16,14 +25,21 @@ void	get_altitude_and_color(t_struct *as, char *point, int k)
 		data = ft_split(point, ',');
 		if (!data[0] || !data[1])
 			ft_exit(as, "Error\nMalloc error\n");
+		if (data[0][0] == '-')
+		{
+			data[0]++;
+			negativ = 1;
+		}
 		if (!ft_isnumber(data[0]))
-			ft_exit(as, "Error\nInvalide file\n");
+			ft_exit(as, "Error\nInvalid file\n");
+		if (negativ)
+			data[0]--;
 		as->map.point[k].z = ft_atoi(data[0]);
 		if (data[1][0] != '0' || data[1][1] != 'x')
-			ft_exit(as, "Error\nInvalide file\n");
+			ft_exit(as, "Error\nInvalid file\n");
 		data[1] += 2;
 		if (!ft_ishexa(data[1]))
-			ft_exit(as, "Error\nInvalide file\n");
+			ft_exit(as, "Error\nInvalid file\n");
 		as->map.point[k].color = ft_atoi_base(data[1], "0123456789abcdef");
 		if (as->map.point[k].color == 0)
 			as->map.point[k].color = 16777215;
@@ -31,7 +47,7 @@ void	get_altitude_and_color(t_struct *as, char *point, int k)
 		free_split(data, 2);
 	}
 	else
-		ft_exit(as, "Error\nInvalide file\n");
+		ft_exit(as, "Error\nInvalid file\n");
 }
 
 void	fill_points(t_struct *as, char **line)

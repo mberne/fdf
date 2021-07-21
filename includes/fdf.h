@@ -42,6 +42,9 @@ typedef struct s_map
 	int		num_row;
 	int		num_col;
 	int		num_point;
+	float	ratio;
+	float	shift_left;
+	float	shift_up;
 	t_point	*point;
 }	t_map;
 
@@ -61,6 +64,7 @@ void	fill_points(t_struct *as, char **line);
 void	get_altitude_and_color(t_struct *as, char *point, int k);
 
 int		draw(t_struct *as);
+void	scale_map(t_map *map);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	free_split(char **tab, int i);
