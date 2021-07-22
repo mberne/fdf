@@ -31,26 +31,32 @@ void	scale_map(t_map *map)
 	map->shift_up = 8 * map->ratio;
 }
 
+void	calc_px(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	map->px = malloc(sizeof(t_px) * (map->num_point));
+	while (i < map->num_point)
+	{
+		map->px[i].x = (map->point[i].x - map->point[i].y) * 2 * map->ratio
+			+ map->shift_left;
+		map->px[i].y = (map->point[i].x + map->point[i].y - map->point[i].z)
+			* map->ratio + map->shift_up;
+		i++;
+	}
+}
+
 int	draw(t_struct *as)
 {
 	int	i;
 
 	i = 0;
-	scale_map(&as->map);
+	calc_px(&as->map);
 	while (i < as->map.num_point)
 	{
-		if (as->map.point[i].z >= 0)
-			my_mlx_pixel_put(&as->data, (as->map.point[i].x - as->map.point[i].y)
-				* 2 * as->map.ratio + as->map.shift_left,
-				(as->map.point[i].x + as->map.point[i].y - as->map.point[i].z / 10)
-				* as->map.ratio + as->map.shift_up,
-				as->map.point[i].color);
-		else
-			my_mlx_pixel_put(&as->data, (as->map.point[i].x - as->map.point[i].y)
-				* 2 * as->map.ratio + as->map.shift_left,
-				(as->map.point[i].x + as->map.point[i].y + as->map.point[i].z / 10)
-				* as->map.ratio + as->map.shift_up,
-				as->map.point[i].color);
+		my_mlx_pixel_put(&as->data, as->map.px[i].x, as->map.px[i].y,
+			as->map.point[i].color);
 		i++;
 	}
 	mlx_put_image_to_window(as->vars.mlx, as->vars.win, as->data.img, 0, 0);

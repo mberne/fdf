@@ -7,6 +7,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		ft_exit(&as, "Wrong number of parameter.\n");
 	parsing(&as, av[1]);
+	scale_map(&as.map);
 	as.vars.mlx = mlx_init();
 	if (!as.vars.mlx)
 		ft_exit(&as, "MLX error.");
