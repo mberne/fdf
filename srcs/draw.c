@@ -47,6 +47,13 @@ void	calc_px(t_map *map)
 	}
 }
 
+void	draw_segment(t_px a, t_px b)
+{
+	(void)a;
+	(void)b;
+	return ;
+}
+
 int	draw(t_struct *as)
 {
 	int	i;
@@ -57,6 +64,18 @@ int	draw(t_struct *as)
 	{
 		my_mlx_pixel_put(&as->data, as->map.px[i].x, as->map.px[i].y,
 			as->map.point[i].color);
+		if (i >= as->map.num_point - as->map.num_col
+			|| (i + 1) % as->map.num_col == 0)
+		{
+			draw_segment(as->map.px[i], as->map.px[i + 1]);
+			draw_segment(as->map.px[i], as->map.px[i + as->map.num_col]);
+		}
+		if (i < as->map.num_point - as->map.num_col
+			&& (i + 1) % as->map.num_col != 0)
+			draw_segment(as->map.px[i], as->map.px[i + as->map.num_col]);
+		if (i >= as->map.num_point - as->map.num_col
+			&& i != as->map.num_point - 1)
+			draw_segment(as->map.px[i], as->map.px[i + 1]);
 		i++;
 	}
 	mlx_put_image_to_window(as->vars.mlx, as->vars.win, as->data.img, 0, 0);
