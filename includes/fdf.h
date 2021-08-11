@@ -9,9 +9,8 @@
 # include "../libft/includes/libft.h"
 
 # define ESC 53
-# define SCALE 10
-# define H_RES 1000
-# define V_RES 1000
+# define H_RES 2560
+# define V_RES 1440
 
 typedef struct s_vars
 {
@@ -48,6 +47,8 @@ typedef struct s_map
 	int		num_row;
 	int		num_col;
 	int		num_point;
+	int		lowest;
+	int		highest;
 	float	ratio;
 	float	shift_left;
 	float	shift_up;
@@ -63,17 +64,19 @@ typedef struct s_struct
 }	t_struct;
 
 int		main(int ac, char **av);
-
 void	parsing(t_struct *as, char *file);
+void	find_lowest_and_highest_point(t_map *map);
+void	scale_map(t_map *map);
+void	calc_px(t_map *map);
+
 void	take_map(t_struct *as, char *file, char **tmpmap);
 void	take_points(t_struct *as);
 void	fill_points(t_struct *as, char **line);
 void	get_altitude_and_color(t_struct *as, char *point, int k);
+void	altitude_color(t_struct *as, char *point, int k, int negativ);
 
 int		draw(t_struct *as);
-void	scale_map(t_map *map);
-void	calc_px(t_map *map);
-void    draw_segment(t_struct *as, t_px a, t_px b, int color);
+void	draw_segment(t_struct *as, t_px a, t_px b, int color);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	free_split(char **tab, int i);
