@@ -47,11 +47,22 @@ void	calc_px(t_map *map)
 	}
 }
 
-void	draw_segment(t_px a, t_px b)
+void    draw_segment(t_struct *as, t_px a, t_px b, int color)
 {
-	(void)a;
-	(void)b;
-	return ;
+    float	t;
+    float	offset;
+    t_px	ab;
+
+    t = 0;
+    ab.x = b.x - a.x;
+    ab.y = b.y - a.y;
+    offset = 1 / hypotf(ab.x, ab.y);
+    while (t <= 1)
+    {
+		if (0 <= t * ab.x + a.x && t * ab.x + a.x < V_RES && 0 <= t * ab.y + a.y && t * ab.y + a.y < H_RES)
+       		my_mlx_pixel_put(&as->data, t * ab.x + a.x, t * ab.y + a.y, color);
+        t += offset;
+    }
 }
 
 int	draw(t_struct *as)
@@ -62,20 +73,19 @@ int	draw(t_struct *as)
 	calc_px(&as->map);
 	while (i < as->map.num_point)
 	{
-		my_mlx_pixel_put(&as->data, as->map.px[i].x, as->map.px[i].y,
-			as->map.point[i].color);
-		if (i >= as->map.num_point - as->map.num_col
-			|| (i + 1) % as->map.num_col == 0)
-		{
-			draw_segment(as->map.px[i], as->map.px[i + 1]);
-			draw_segment(as->map.px[i], as->map.px[i + as->map.num_col]);
-		}
+
 		if (i < as->map.num_point - as->map.num_col
 			&& (i + 1) % as->map.num_col != 0)
-			draw_segment(as->map.px[i], as->map.px[i + as->map.num_col]);
+		{
+			draw_segment(as, as->map.px[i], as->map.px[i + 1], as->map.point[i].color);
+			draw_segment(as, as->map.px[i], as->map.px[i + as->map.num_col], as->map.point[i].color);
+		}
+		if (i < as->map.num_point - as->map.num_col
+			&& (i + 1) % as->map.num_col == 0)
+			draw_segment(as, as->map.px[i], as->map.px[i + as->map.num_col], as->map.point[i].color);
 		if (i >= as->map.num_point - as->map.num_col
 			&& i != as->map.num_point - 1)
-			draw_segment(as->map.px[i], as->map.px[i + 1]);
+			draw_segment(as, as->map.px[i], as->map.px[i + 1], as->map.point[i].color);
 		i++;
 	}
 	mlx_put_image_to_window(as->vars.mlx, as->vars.win, as->data.img, 0, 0);

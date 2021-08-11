@@ -38,8 +38,8 @@ typedef struct s_point
 
 typedef struct s_px
 {
-	int	x;
-	int	y;
+	float	x;
+	float	y;
 }	t_px;
 
 typedef struct s_map
@@ -73,6 +73,7 @@ void	get_altitude_and_color(t_struct *as, char *point, int k);
 int		draw(t_struct *as);
 void	scale_map(t_map *map);
 void	calc_px(t_map *map);
+void    draw_segment(t_struct *as, t_px a, t_px b, int color);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	free_split(char **tab, int i);

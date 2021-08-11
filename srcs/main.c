@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		ft_exit(&as, "MLX error.");
 	mlx_hook(as.vars.win, 2, 0L, close_win, &as);
 	mlx_hook(as.vars.win, 17, 0L, destroy_win, &as.vars);
-	mlx_loop_hook(as.vars.mlx, draw, &as);
+	draw(&as);
 	mlx_loop(as.vars.mlx);
 	return (0);
 }
