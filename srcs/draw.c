@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/13 10:39:49 by mberne            #+#    #+#             */
+/*   Updated: 2021/08/18 11:30:47 by mberne           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -31,23 +43,14 @@ int	draw(t_struct *as)
 {
 	int	i;
 
+	calc_px(&as->map);
 	i = 0;
 	while (i < as->map.num_point)
 	{
-		if (i < as->map.num_point - as->map.num_col
-			&& (i + 1) % as->map.num_col != 0)
-		{
-			draw_segment(as, as->map.px[i], as->map.px[i + 1],
-				as->map.point[i].color);
+		if (i < as->map.num_point - as->map.num_col)
 			draw_segment(as, as->map.px[i], as->map.px[i + as->map.num_col],
 				as->map.point[i].color);
-		}
-		if (i < as->map.num_point - as->map.num_col
-			&& (i + 1) % as->map.num_col == 0)
-			draw_segment(as, as->map.px[i], as->map.px[i + as->map.num_col],
-				as->map.point[i].color);
-		if (i >= as->map.num_point - as->map.num_col
-			&& i != as->map.num_point - 1)
+		if ((i + 1) % as->map.num_col != 0)
 			draw_segment(as, as->map.px[i], as->map.px[i + 1],
 				as->map.point[i].color);
 		i++;

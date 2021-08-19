@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/13 10:40:12 by mberne            #+#    #+#             */
+/*   Updated: 2021/08/19 13:20:41 by mberne           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
@@ -9,8 +21,8 @@
 # include "../libft/includes/libft.h"
 
 # define ESC 53
-# define H_RES 2560
-# define V_RES 1440
+# define H_RES 2000
+# define V_RES 1100
 
 typedef struct s_vars
 {

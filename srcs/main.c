@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/13 10:38:46 by mberne            #+#    #+#             */
+/*   Updated: 2021/08/19 14:59:29 by mberne           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	calc_px(t_map *map)
@@ -10,7 +22,7 @@ void	calc_px(t_map *map)
 	{
 		map->px[i].x = (map->point[i].x - map->point[i].y) * 2 * map->ratio
 			+ map->shift_left;
-		map->px[i].y = (map->point[i].x + map->point[i].y - map->point[i].z)
+		map->px[i].y = (map->point[i].x + map->point[i].y - map->point[i].z / 5)
 			* map->ratio + map->shift_up;
 		i++;
 	}
@@ -22,8 +34,8 @@ void	scale_map(t_map *map)
 	float	ratio_h;
 
 	ratio_v = (float)V_RES
-		/ (map->point[map->num_point - 1].x + map->point[map->num_point - 1].y
-			- (map->point[0].x + map->point[0].y) + 8);
+		/ ((map->point[map->highest].x + map->point[map->highest].y - map->point[map->highest].z / 5)
+			- (map->point[map->lowest].x + map->point[map->lowest].y - 16 - map->point[map->lowest].z / 5));
 	ratio_h = (float)H_RES
 		/ ((map->point[map->num_col - 1].x - map->point[map->num_col - 1].y) * 2
 			- (map->point[map->num_point - map->num_col].x
@@ -42,27 +54,23 @@ void	scale_map(t_map *map)
 void	find_lowest_and_highest_point(t_map *map)
 {
 	int	i;
-	int	tmp;
+	int	lowest;
+	int	highest;
 
-	i = 1;
-	tmp = map->point[0].z;
+	i = 0;
+	lowest = (map->point[map->num_point - 1].x + map->point[map->num_point - 1].y - map->point[map->num_point - 1].z / 5);
+	highest = (map->point[0].x + map->point[0].y - map->point[0].z / 5);
 	while (i < map->num_point)
 	{
-		if (map->point[i].z <= tmp)
+		if ((map->point[i].x + map->point[i].y - map->point[i].z / 5) > highest)
 		{
-			tmp = map->point[i].z;
-			map->lowest = i;
-		}
-		i++;
-	}
-	i = 1;
-	tmp = map->point[0].z;
-	while (i < map->num_point)
-	{
-		if (map->point[i].z > tmp)
-		{
-			tmp = map->point[i].z;
+			highest = (map->point[i].x + map->point[i].y - map->point[i].z / 5);
 			map->highest = i;
+		}
+		if ((map->point[i].x + map->point[i].y - map->point[i].z / 5) <= lowest)
+		{
+			lowest = (map->point[i].x + map->point[i].y - map->point[i].z / 5);
+			map->lowest = i;
 		}
 		i++;
 	}
@@ -86,6 +94,7 @@ int	main(int ac, char **av)
 {
 	t_struct	as;
 
+	ft_bzero(&as, sizeof(t_struct));
 	if (ac != 2)
 		ft_exit(&as, "Wrong number of parameter.\n");
 	parsing(&as, av[1]);
@@ -104,7 +113,6 @@ int	main(int ac, char **av)
 		ft_exit(&as, "MLX error.");
 	mlx_hook(as.vars.win, 2, 0L, close_win, &as);
 	mlx_hook(as.vars.win, 17, 0L, destroy_win, &as.vars);
-	calc_px(&as.map);
 	draw(&as);
 	mlx_put_image_to_window(as.vars.mlx, as.vars.win, as.data.img, 0, 0);
 	mlx_loop(as.vars.mlx);

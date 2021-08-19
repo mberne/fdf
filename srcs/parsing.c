@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/13 10:39:55 by mberne            #+#    #+#             */
+/*   Updated: 2021/08/18 11:30:54 by mberne           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	altitude_color(t_struct *as, char *point, int k, int negativ)
@@ -89,10 +101,11 @@ void	take_points(t_struct *as)
 	if (!line)
 		ft_exit(as, "Error\nMalloc error\n");
 	as->map.num_col = number_of_split(line);
-	as->map.num_point = as->map.num_row * as->map.num_col;
-	as->map.point = malloc(sizeof(t_point)
-			* (as->map.num_point));
 	free_split(line, number_of_split(line));
+	as->map.num_point = as->map.num_row * as->map.num_col;
+	as->map.point = malloc(sizeof(t_point) * as->map.num_point);
+	if (!as->map.point)
+		ft_exit(as, "Error\nMalloc error\n");
 	fill_points(as, line);
 }
 
