@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:38:46 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/19 14:59:29 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/23 15:05:12 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	scale_map(t_map *map)
 	float	ratio_h;
 
 	ratio_v = (float)V_RES
-		/ ((map->point[map->highest].x + map->point[map->highest].y - map->point[map->highest].z / 5)
-			- (map->point[map->lowest].x + map->point[map->lowest].y - 16 - map->point[map->lowest].z / 5));
+		/ ((map->point[map->highest].x + map->point[map->highest].y
+				- map->point[map->highest].z / 5)
+			- (map->point[map->lowest].x + map->point[map->lowest].y - 16
+				- map->point[map->lowest].z / 5));
 	ratio_h = (float)H_RES
 		/ ((map->point[map->num_col - 1].x - map->point[map->num_col - 1].y) * 2
 			- (map->point[map->num_point - map->num_col].x
@@ -47,8 +49,8 @@ void	scale_map(t_map *map)
 	map->shift_left = ((map->point[0].x - map->point[0].y) * 2
 			- (map->point[map->num_point - map->num_col].x
 				- map->point[map->num_point - map->num_col].y) * 2 + 8)
-		* map->ratio;
-	map->shift_up = 8 * map->ratio;
+		* ratio_h;
+	map->shift_up = 8 * ratio_v;
 }
 
 void	find_lowest_and_highest_point(t_map *map)
@@ -58,7 +60,9 @@ void	find_lowest_and_highest_point(t_map *map)
 	int	highest;
 
 	i = 0;
-	lowest = (map->point[map->num_point - 1].x + map->point[map->num_point - 1].y - map->point[map->num_point - 1].z / 5);
+	lowest = (map->point[map->num_point - 1].x
+			+ map->point[map->num_point - 1].y
+			- map->point[map->num_point - 1].z / 5);
 	highest = (map->point[0].x + map->point[0].y - map->point[0].z / 5);
 	while (i < map->num_point)
 	{
