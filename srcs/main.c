@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:38:46 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/23 15:05:12 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/24 10:02:55 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	parsing(t_struct *as, char *file)
 	take_map(as, file, &tmpmap);
 	as->map.map = ft_split(tmpmap, '\n');
 	if (!as->map.map)
-		ft_exit(as, "Error\nMalloc error\n");
+		ft_exit(as, "Error\nMalloc error\n", -1);
 	free(tmpmap);
 	as->map.num_row = number_of_split(as->map.map);
 	take_points(as);
@@ -100,21 +100,21 @@ int	main(int ac, char **av)
 
 	ft_bzero(&as, sizeof(t_struct));
 	if (ac != 2)
-		ft_exit(&as, "Wrong number of parameter.\n");
+		ft_exit(&as, "Wrong number of parameter.\n", -1);
 	parsing(&as, av[1]);
 	find_lowest_and_highest_point(&as.map);
 	scale_map(&as.map);
 	as.vars.mlx = mlx_init();
 	if (!as.vars.mlx)
-		ft_exit(&as, "MLX error.");
+		ft_exit(&as, "MLX error.", -1);
 	as.vars.win = mlx_new_window(as.vars.mlx, H_RES, V_RES, "fdf");
 	as.data.img = mlx_new_image(as.vars.mlx, H_RES, V_RES);
 	if (!as.vars.win || !as.data.img)
-		ft_exit(&as, "MLX error.");
+		ft_exit(&as, "MLX error.", -1);
 	as.data.addr = mlx_get_data_addr(as.data.img, &as.data.bits_per_pixel,
 			&as.data.line_length, &as.data.endian);
 	if (!as.data.addr)
-		ft_exit(&as, "MLX error.");
+		ft_exit(&as, "MLX error.", -1);
 	mlx_hook(as.vars.win, 2, 0L, close_win, &as);
 	mlx_hook(as.vars.win, 17, 0L, destroy_win, &as.vars);
 	draw(&as);

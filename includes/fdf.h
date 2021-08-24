@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:40:12 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/19 13:20:41 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/24 10:10:47 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "../libft/includes/libft.h"
 
 # define ESC 53
-# define H_RES 2000
-# define V_RES 1100
+# define H_RES 2560
+# define V_RES 1440
 
 typedef struct s_vars
 {
@@ -98,6 +98,6 @@ int		ft_ishexa(char const *s);
 
 int		close_win(int keycode, t_struct *as);
 int		destroy_win(t_struct *as);
-void	ft_exit(t_struct *as, char *str);
+void	ft_exit(t_struct *as, char *str, int status);
 
 #endif

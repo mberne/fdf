@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 10:39:55 by mberne            #+#    #+#             */
-/*   Updated: 2021/08/18 11:30:54 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/08/24 09:41:58 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ void	altitude_color(t_struct *as, char *point, int k, int negativ)
 
 	data = ft_split(point, ',');
 	if (!data[0] || !data[1])
-		ft_exit(as, "Error\nMalloc error\n");
+		ft_exit(as, "Error\nMalloc error\n", -1);
 	if (data[0][0] == '-')
 	{
 		data[0]++;
 		negativ = 1;
 	}
 	if (!ft_isnumber(data[0]))
-		ft_exit(as, "Error\nInvalid file\n");
+		ft_exit(as, "Error\nInvalid file\n", -1);
 	if (negativ)
 		data[0]--;
 	as->map.point[k].z = ft_atoi(data[0]);
 	if (data[1][0] != '0' || data[1][1] != 'x')
-		ft_exit(as, "Error\nInvalid file\n");
+		ft_exit(as, "Error\nInvalid file\n", -1);
 	data[1] += 2;
 	if (!ft_ishexa(data[1]))
-		ft_exit(as, "Error\nInvalid file\n");
+		ft_exit(as, "Error\nInvalid file\n", -1);
 	as->map.point[k].color = ft_atoi_base(data[1], "0123456789abcdef");
 	if (as->map.point[k].color == 0)
 		as->map.point[k].color = 16777215;
@@ -54,7 +54,7 @@ void	get_altitude_and_color(t_struct *as, char *point, int k)
 			negativ = 1;
 		}
 		if (!ft_isnumber(point))
-			ft_exit(as, "Error\nInvalid file\n");
+			ft_exit(as, "Error\nInvalid file\n", -1);
 		if (negativ)
 			point--;
 		as->map.point[k].z = ft_atoi(point);
@@ -63,7 +63,7 @@ void	get_altitude_and_color(t_struct *as, char *point, int k)
 	else if (ft_count(point, ',') == 1)
 		altitude_color(as, point, k, negativ);
 	else
-		ft_exit(as, "Error\nInvalid file\n");
+		ft_exit(as, "Error\nInvalid file\n", -1);
 }
 
 void	fill_points(t_struct *as, char **line)
@@ -78,7 +78,7 @@ void	fill_points(t_struct *as, char **line)
 	{
 		line = ft_split(as->map.map[i], ' ');
 		if (!line)
-			ft_exit(as, "Error\nMalloc error\n");
+			ft_exit(as, "Error\nMalloc error\n", -1);
 		j = 0;
 		while (j < as->map.num_col)
 		{
@@ -99,13 +99,13 @@ void	take_points(t_struct *as)
 
 	line = ft_split(as->map.map[0], ' ');
 	if (!line)
-		ft_exit(as, "Error\nMalloc error\n");
+		ft_exit(as, "Error\nMalloc error\n", -1);
 	as->map.num_col = number_of_split(line);
 	free_split(line, number_of_split(line));
 	as->map.num_point = as->map.num_row * as->map.num_col;
 	as->map.point = malloc(sizeof(t_point) * as->map.num_point);
 	if (!as->map.point)
-		ft_exit(as, "Error\nMalloc error\n");
+		ft_exit(as, "Error\nMalloc error\n", -1);
 	fill_points(as, line);
 }
 
@@ -119,20 +119,20 @@ void	take_map(t_struct *as, char *file, char **tmpmap)
 	ret = 1;
 	line = NULL;
 	if (fd == -1)
-		ft_exit(as, "Error\nFile failed to open\n");
+		ft_exit(as, "Error\nFile failed to open\n", -1);
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
-			ft_exit(as, "Error\nAn error occured while reading file\n");
+			ft_exit(as, "Error\nAn error occured while reading file\n", -1);
 		*tmpmap = ft_strjoin(*tmpmap, line);
 		if (!tmpmap)
-			ft_exit(as, "Error\nMalloc error\n");
+			ft_exit(as, "Error\nMalloc error\n", -1);
 		free(line);
 		*tmpmap = ft_strjoin(*tmpmap, "\n");
 		if (!tmpmap)
-			ft_exit(as, "Error\nMalloc error\n");
+			ft_exit(as, "Error\nMalloc error\n", -1);
 	}
 	if (close(fd) == -1)
-		ft_exit(as, "Error\nFile failed to close\n");
+		ft_exit(as, "Error\nFile failed to close\n", -1);
 }
